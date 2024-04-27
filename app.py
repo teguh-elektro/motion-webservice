@@ -82,7 +82,7 @@ def count_video_duration():
         files = os.listdir(storage_dir)
         for file in files:
             count_duration(f'storage/motion/{directory}/{file}')
-    return jsonify({'message': files})
+    return jsonify({'message': 'success'})
     
 
 if __name__ == '__main__':
