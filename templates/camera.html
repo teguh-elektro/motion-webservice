@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        .video-container {
+            max-width: 720px;
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+            border: 1px grey solid;
+            /* Pusatkan container di tengah */
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+        }
+
+        .record-list {
+            height: 250px;
+            width: 300px;
+            margin-bottom: 20px;
+            overflow-y: auto;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        @media (max-width: 720px) {
+            .record-list {
+                width: 100%;
+            }
+            .container {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/">Back</a>
+    <h1>List Video</h1>
+    <form id="date-form">
+        <label for="date">Pilih Tanggal:</label>
+        <input type="date" id="date" name="date">
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <div class="container">
+        <div class="record-list">
+            <ul>
+                {% for file in files_list %}
+                {% if file['duration'] is not none %}
+                <li><a href="#" class="video-link"
+                        data-src="{{ url_for('static', filename='motion/cam' + camera_id + '/' + file['filename']) }}">{{
+                        file['name'] }} ({{file['duration']}})</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="video-container" style="display: none;">
+            <video id="video-player" controls autoplay>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            };
+
+            var videoLinks = document.querySelectorAll('.video-link');
+            var videoPlayer = document.getElementById('video-player');
+            var dateInput = document.getElementById('date');
+
+            var dateInput = document.getElementById('date');
+            var dateParam = getUrlParameter('date');
+            dateInput.value = dateParam;
+
+            videoLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var videoSource = this.getAttribute('data-src');
+                    videoPlayer.setAttribute('src', videoSource);
+                    videoPlayer.parentElement.style.display = 'block';
+                    videoPlayer.play();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

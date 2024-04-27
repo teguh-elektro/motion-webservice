@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        .video-container {
+            max-width: 720px;
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .video-container img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Video</h1>
+    {% for folder in folders %}
+        <div>
+            <a class="video-container" href="{{'http://192.168.18.110:' + folder['port'] }}"> 
+                <img src="{{'http://192.168.18.110:' + folder['port'] }}" border="0" width="25%">
+            </a>
+            <br>
+            <a href="{{ '/cam/' + folder['id'] }}">
+                {{ folder['name'] }}'s record
+            </a>
+        </div>
+    {% endfor %}
+</body>
+</html>
