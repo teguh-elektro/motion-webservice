@@ -23,8 +23,8 @@
     <h1>Live Video</h1>
     {% for folder in folders %}
         <div>
-            <a class="video-container" href="{{'http://192.168.18.110:' + folder['port'] }}"> 
-                <img src="{{'http://192.168.18.110:' + folder['port'] }}" border="0" width="25%">
+            <a class="video-container" href="{{'/live/' + folder['id'] }}"> 
+                <img src="{{'/live/' + folder['id'] }}" border="0" width="25%">
             </a>
             <br>
             <a href="{{ '/cam/' + folder['id'] }}">

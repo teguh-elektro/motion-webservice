@@ -85,9 +85,14 @@
             var videoPlayer = document.getElementById('video-player');
             var dateInput = document.getElementById('date');
 
+            var today = new Date().toISOString().split('T')[0];
+            var sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            document.getElementById('date').max = today;
+            document.getElementById('date').min = sevenDaysAgo;
+            
             var dateInput = document.getElementById('date');
             var dateParam = getUrlParameter('date');
-            dateInput.value = dateParam;
+            dateInput.value = dateParam ? dateParam : today;
 
             videoLinks.forEach(function (link) {
                 link.addEventListener('click', function (event) {

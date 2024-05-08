@@ -1,8 +1,9 @@
 import os, re
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify
+from flask import Response, Flask, render_template, request, jsonify
 from moviepy.editor import VideoFileClip
 import sqlite3
+import requests
 
 app = Flask(__name__, static_folder='storage')
 conn = sqlite3.connect('database.db')
@@ -73,6 +74,13 @@ def record(camera_id):
     files_list = [{'filename': file, 'name': convert_filename(file), 'duration': get_video_duration('storage/motion/cam' + camera_id + '/' + file)} for file in filtered_files]
     sorted_files = sorted(files_list, key=lambda x: datetime.strptime(x['filename'][:-4], '%Y%m%d%H%M%S'))
     return render_template('camera.html', files_list=sorted_files, camera_id=camera_id)
+
+@app.route('/live/<camera_id>')
+def live_camera(camera_id):
+    port = str(8000 + int(camera_id))
+    stream_url = f'http://localhost:{port}'
+    response = requests.get(stream_url, stream=True)
+    return Response(response.iter_content(chunk_size=1024), content_type=response.headers['content-type'])
 
 @app.route('/video-duration')
 def count_video_duration():
