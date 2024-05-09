@@ -85,10 +85,13 @@
             var videoPlayer = document.getElementById('video-player');
             var dateInput = document.getElementById('date');
 
-            var today = new Date().toISOString().split('T')[0];
-            var sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            var today = new Date().toLocaleDateString().split('/');
+            today = today[2] + '-' + today[0].padStart(2, '0') + '-' + today[1].padStart(2, '0');
+            var sevenDaysAgo = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toLocaleDateString().split('/');
+            sevenDaysAgo = sevenDaysAgo[2] + '-' + sevenDaysAgo[0].padStart(2, '0') + '-' + sevenDaysAgo[1].padStart(2, '0');
             document.getElementById('date').max = today;
             document.getElementById('date').min = sevenDaysAgo;
+            console.log(today, sevenDaysAgo)
             
             var dateInput = document.getElementById('date');
             var dateParam = getUrlParameter('date');
